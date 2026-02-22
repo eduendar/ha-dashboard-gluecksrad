@@ -1,0 +1,277 @@
+:root {
+    --bg-color: #0f172a;
+    --panel-bg: rgba(30, 41, 59, 0.6);
+    --text-color: #f8fafc;
+    --accent-color: #3b82f6;
+    --accent-hover: #2563eb;
+    --wheel-shadow: rgba(0, 0, 0, 0.4);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--bg-color);
+    /* Modern animated background gradient */
+    background: radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.2) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.2) 0%, transparent 40%);
+    background-size: 100% 100%;
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.app-container {
+    display: flex;
+    width: 95%;
+    max-width: 1100px;
+    height: 85vh;
+    max-height: 800px;
+    background: var(--panel-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 32px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+}
+
+.wheel-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 2rem;
+    background: linear-gradient(135deg, rgba(255,255,255,0.02) 0%, transparent 100%);
+}
+
+.title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    background: linear-gradient(to right, #60a5fa, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 4px 20px rgba(96, 165, 250, 0.3);
+}
+
+.wheel-wrapper {
+    position: relative;
+    width: clamp(280px, 45vw, 480px);
+    aspect-ratio: 1;
+    margin-bottom: 2.5rem;
+    filter: drop-shadow(0 20px 30px var(--wheel-shadow));
+}
+
+.pointer {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%) rotate(180deg);
+    width: 45px;
+    height: 45px;
+    color: white;
+    z-index: 10;
+    filter: drop-shadow(0 -5px 10px rgba(0,0,0,0.5));
+    animation: float 2s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateX(-50%) translateY(0) rotate(180deg); }
+    50% { transform: translateX(-50%) translateY(-5px) rotate(180deg); }
+}
+
+canvas#wheel {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    cursor: pointer;
+    /* CSS transition creates the natural spinning feel */
+    transition: transform 3.5s cubic-bezier(0.15, 0.85, 0.2, 1);
+    box-shadow: 0 0 0 6px rgba(255,255,255,0.05);
+}
+
+canvas#wheel:hover {
+    box-shadow: 0 0 0 8px rgba(255,255,255,0.1), 0 0 40px rgba(59, 130, 246, 0.3);
+}
+
+.result-display {
+    font-size: 2rem;
+    font-weight: 600;
+    min-height: 60px;
+    text-align: center;
+    padding: 1rem 2rem;
+    border-radius: 100px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.result-display.highlight {
+    transform: scale(1.15);
+    background: rgba(59, 130, 246, 0.2);
+    border-color: rgba(59, 130, 246, 0.5);
+    color: #fff;
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.4);
+}
+
+.sidebar {
+    width: 320px;
+    background: rgba(15, 23, 42, 0.4);
+    border-left: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 2.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-header {
+    margin-bottom: 2.5rem;
+}
+
+.sidebar-header h2 {
+    margin: 0 0 0.5rem 0;
+    font-weight: 700;
+    font-size: 1.6rem;
+    color: #fff;
+    letter-spacing: 1px;
+}
+
+.sidebar-header p {
+    margin: 0;
+    color: #94a3b8;
+    font-size: 1rem;
+}
+
+.member-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+/* Custom scrollbar for member list */
+.member-list::-webkit-scrollbar {
+    width: 6px;
+}
+.member-list::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.02);
+    border-radius: 10px;
+}
+.member-list::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+}
+
+.member-item {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 1.2rem;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.member-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* Custom modern checkbox */
+.member-item input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    border: 2px solid #475569;
+    background: rgba(0,0,0,0.2);
+    margin-right: 18px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+}
+
+.member-item input[type="checkbox"]:checked {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+}
+
+.member-item input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 8px;
+    width: 6px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.member-name {
+    font-size: 1.2rem;
+    font-weight: 500;
+    user-select: none;
+    color: #e2e8f0;
+}
+
+@media (max-width: 850px) {
+    .app-container {
+        flex-direction: column;
+        height: 100vh;
+        width: 100%;
+        max-width: 100%;
+        border-radius: 0;
+        border: none;
+    }
+    
+    .wheel-section {
+        padding: 1.5rem;
+    }
+    
+    .title {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .wheel-wrapper {
+        width: clamp(240px, 70vw, 400px);
+        margin-bottom: 1.5rem;
+    }
+    
+    .result-display {
+        font-size: 1.5rem;
+        padding: 0.8rem 1.5rem;
+    }
+    
+    .sidebar {
+        width: 100%;
+        height: 40%;
+        border-left: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 1.5rem;
+    }
+    
+    .member-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 1rem;
+    }
+}
